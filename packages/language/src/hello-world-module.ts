@@ -1,4 +1,4 @@
-import { type Module, inject } from 'langium';
+import { DefaultServiceRegistry, LangiumCoreServices, LangiumSharedCoreServices, type Module, URI, inject } from 'langium';
 import { createDefaultModule, createDefaultSharedModule, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
 import { HelloWorldGeneratedModule, HelloWorldGeneratedSharedModule } from './generated/module.js';
 import { HelloWorldValidator, registerValidationChecks } from './hello-world-validator.js';
@@ -50,7 +50,10 @@ export function createHelloWorldServices(context: DefaultSharedModuleContext): {
 } {
     const shared = inject(
         createDefaultSharedModule(context),
-        HelloWorldGeneratedSharedModule
+        HelloWorldGeneratedSharedModule,
+        {
+            ServiceRegistry: (services) => new MySR(services)
+        }
     );
     const HelloWorld = inject(
         createDefaultModule({ shared }),
@@ -65,4 +68,74 @@ export function createHelloWorldServices(context: DefaultSharedModuleContext): {
         shared.workspace.ConfigurationProvider.initialized({});
     }
     return { shared, HelloWorld };
+}
+
+export class MySR extends DefaultServiceRegistry {
+  constructor(private readonly sharedServices: LangiumSharedCoreServices) {
+    super(sharedServices)
+  }
+
+  override getServices(uri: URI): LangiumCoreServices {
+    // if (this.singleton !== undefined) {
+    //   return this.singleton
+    // }
+
+    if (this.fileExtensionMap === undefined) {
+      throw new Error("The service registry is empty. Use `register` to register the services of a language.")
+    }
+
+    const path = uri.path
+    const extensions = path.split(".")
+
+    if (path.endsWith(".lsnb")) {
+      return this.handleLsnbFile(uri)
+    } else {
+      const services = this.handleOtherFiles(extensions)
+      if (services === undefined || services === null) {
+        throw new Error(
+          `The service registry contains no services for the file '${path}' with extensions '${extensions.join(", ")}'.`
+        )
+      }
+      return services
+    }
+  }
+
+  private handleLsnbFile(uri: URI): LangiumCoreServices {
+    if (this.fileExtensionMap !== undefined) {
+      const metadataServices = this.fileExtensionMap.get(".hello")
+
+      const textDocument = this.sharedServices.workspace.TextDocuments?.get(uri.toString())
+
+      if (textDocument !== undefined) {
+        switch (textDocument.languageId) {
+          case "hello":
+            if (metadataServices !== undefined) return metadataServices
+            break
+          default:
+            throw new Error(
+              `Unsupported language ID '${textDocument.languageId}' for document at URI '${uri.toString()}'.`
+            )
+        }
+      }
+    }
+    throw new Error(`Text document not found for URI '${uri.toString()}'.`)
+  }
+
+  private handleOtherFiles(extensions: string[]): LangiumCoreServices | undefined {
+    let services: LangiumCoreServices | undefined
+    if (this.fileExtensionMap !== undefined) {
+      for (let i = extensions.length - 1; i >= 0; i--) {
+        const ext = "." + extensions.slice(i).join(".")
+        const tempServices = this.fileExtensionMap.get(ext)
+        if (tempServices !== undefined && tempServices !== null) {
+          if (i > 0 && this.fileExtensionMap.get("." + extensions.slice(i - 1).join(".")) !== undefined) {
+            continue
+          }
+          services = tempServices
+          break
+        }
+      }
+    }
+    return services
+  }
 }

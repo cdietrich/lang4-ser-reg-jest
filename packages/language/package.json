@@ -35,16 +35,18 @@
         "test": "node --experimental-vm-modules ../../node_modules/.bin/jest"
     },
     "dependencies": {
-        "langium": "~3.5.0-next.936a9d7"
+        "langium": "3.5.0-next.936a9d7"
     },
     "devDependencies": {
         "@jest/globals": "^30.0.4",
         "@types/jest": "^30.0.0",
         "jest": "^30.0.4",
         "jest-expect-message": "^1.1.3",
-        "langium-cli": "~3.5.0-next.936a9d7",
+        "langium-cli": "3.5.0-next.936a9d7",
+        "langium-railroad": "3.5.0-next.936a9d7",
         "ts-jest": "^29.4.0",
-        "typescript": "^5.8.3"
+        "typescript": "^5.8.3",
+        "universalify": "^2.0.1"
     },
     "volta": {
         "node": "20.19.2",

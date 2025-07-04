@@ -14,8 +14,10 @@
     },
     "devDependencies": {
         "@types/node": "~20.17.48",
+        "jsonfile": "^6.1.0",
         "shx": "~0.4.0",
-        "typescript": "~5.8.3"
+        "typescript": "~5.8.3",
+        "universalify": "^2.0.1"
     },
     "volta": {
         "node": "20.19.2",
