@@ -1,0 +1,49 @@
+{
+    "name": "hello-world-language",
+    "description": "The language specific package",
+    "version": "0.0.1",
+    "type": "module",
+    "engines": {
+        "node": ">=20.10.0",
+        "npm": ">=10.2.3"
+    },
+    "files": [
+        "out",
+        "src"
+    ],
+    "main": "./out/index.js",
+    "module": "./out/index.js",
+    "exports": {
+        ".": {
+            "types": "./out/index.d.ts",
+            "default": "./out/index.js"
+        }
+    },
+    "typesVersions": {
+        "*": {
+            ".": [
+                "out/index"
+            ]
+        }
+    },
+    "scripts": {
+        "clean": "shx rm -fr *.tsbuildinfo out",
+        "build": "echo 'No build step'",
+        "build:clean": "npm run clean && npm run build",
+        "langium:generate": "langium generate",
+        "langium:watch": "langium generate --watch",
+        "test": "jest --config ./jest.config.js --runInBand"
+    },
+    "dependencies": {
+        "langium": "~3.5.0-next.936a9d7"
+    },
+    "devDependencies": {
+        "@jest/globals": "^30.0.4",
+        "langium-cli": "~3.5.0-next.936a9d7",
+        "ts-jest": "^29.4.0"
+    },
+    "volta": {
+        "node": "20.19.2",
+        "npm": "10.8.2"
+    }
+}
