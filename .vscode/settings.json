@@ -1,3 +1,5 @@
 {
-    "jest.useJest30": true
+    "jest.useJest30": true,
+    "jest.jestCommandLine": "node --experimental-vm-modules ../../node_modules/.bin/jest",
+    "jest.rootPath": "packages/language"
 }
