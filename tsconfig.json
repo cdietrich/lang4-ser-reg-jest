@@ -6,7 +6,6 @@
     "lib": [
         "ES2020"
     ],
-    "isolatedModules": true,
     "sourceMap": true,
     "strict": true,
     "noUnusedLocals": true,

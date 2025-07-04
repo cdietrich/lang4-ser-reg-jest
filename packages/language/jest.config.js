@@ -1,18 +1,16 @@
-export default {
-  preset: 'ts-jest/presets/default-esm',
-  extensionsToTreatAsEsm: ['.ts'],
-  testEnvironment: 'node',
-  testMatch: ['**/test/**/*.test.ts'],
-  moduleNameMapping: {
-    '^(\\.{1,2}/.*)\\.js$': '$1',
-  },
-  transform: {
-    '^.+\\.ts$': ['ts-jest', {
-      useESM: true,
-    }],
-  },
-  collectCoverageFrom: [
-    'src/**/*.ts',
-    '!src/**/*.d.ts',
-  ],
-};
+import base from "./jest.config.base.mjs"
+
+const { transform , moduleNameMapper, setupFilesAfterEnv, preset ,maxWorkers, testEnvironment, modulePaths } = base;
+
+const config = {
+  transform,
+  moduleNameMapper,
+  setupFilesAfterEnv,
+  preset,
+  maxWorkers,
+  testEnvironment,
+  modulePaths: ["<rootDir>/src", ...modulePaths],
+  roots: ["<rootDir>/test"],
+}
+
+export default config;
