@@ -15,3 +15,10 @@ Some file are contained in the root directory as well.
 - [tsconfig.json](./tsconfig.json) - The base TypeScript compiler configuration
 - [tsconfig.build.json](./package.json) - Configuration used to build the complete source code.
 - [.gitignore](.gitignore) - Files ignored by git
+
+
+npm install
+npm run langium:generate
+npm run build
+cd packages/language
+npm run test
