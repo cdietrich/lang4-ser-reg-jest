@@ -16,6 +16,7 @@ const base = {
       },
     ],
   },
+  extensionsToTreatAsEsm: ['.ts'],
   coverageDirectory: "<rootDir>/coverage/",
   coveragePathIgnorePatterns: [
     "<rootDir>/build/",

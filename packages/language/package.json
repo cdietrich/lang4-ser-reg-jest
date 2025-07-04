@@ -32,7 +32,7 @@
         "build:clean": "npm run clean && npm run build",
         "langium:generate": "langium generate",
         "langium:watch": "langium generate --watch",
-        "test": "jest"
+        "test": "node --experimental-vm-modules ../../node_modules/.bin/jest"
     },
     "dependencies": {
         "langium": "~3.5.0-next.936a9d7"

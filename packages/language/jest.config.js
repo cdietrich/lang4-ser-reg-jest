@@ -1,6 +1,6 @@
 import base from "./jest.config.base.mjs"
 
-const { transform , moduleNameMapper, setupFilesAfterEnv, preset ,maxWorkers, testEnvironment, modulePaths } = base;
+const { transform , moduleNameMapper, setupFilesAfterEnv, preset ,maxWorkers, testEnvironment, modulePaths, extensionsToTreatAsEsm } = base;
 
 const config = {
   transform,
@@ -9,6 +9,7 @@ const config = {
   preset,
   maxWorkers,
   testEnvironment,
+  extensionsToTreatAsEsm,
   modulePaths: ["<rootDir>/src", ...modulePaths],
   roots: ["<rootDir>/test"],
 }
