@@ -35,7 +35,8 @@
         "test": "node --experimental-vm-modules ../../node_modules/.bin/jest"
     },
     "dependencies": {
-        "langium": "3.5.0-next.936a9d7"
+        "langium": "3.5.0-next.936a9d7",
+        "lodash": "^4.17.21"
     },
     "devDependencies": {
         "@jest/globals": "^30.0.4",
